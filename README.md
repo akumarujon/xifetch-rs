@@ -14,10 +14,8 @@ Compile using cargo:
 cargo build --release
 ```
 
-Change your $PATH variable in ~/.shell_profile file.
+Change your $PATH variable in `~/.shell_profile` file.
 - shell_profile -> .bashrc, .zshrc etc.
-
-<br>
 
 or
 #### Install using cargo.
