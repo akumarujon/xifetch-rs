@@ -7,8 +7,10 @@ fn main() {
     let uptime = get_uptime().unwrap_or_else(|| "Unknown".to_string());
     let cpu_info = get_cpu_info().unwrap_or_else(|| "Unknown".to_string());
     let memory_info = get_memory_info().unwrap_or_else(|| "Unknown".to_string());
-
+    let shell_name = std::env::var("SHELL").unwrap_or_else(|_| "Unknown".to_string());
+    
     println!("OS: {}", os_name);
+    println!("Shell: {}", shell_name);
     println!("Kernel: {}", kernel_version);
     println!("Host: {}", host_name);
     println!("Uptime: {}", uptime);
@@ -58,3 +60,4 @@ fn get_memory_info() -> Option<String> {
     let used_mem = mem_parts[2];
     Some(format!("{}  / {} ", used_mem, total_mem))
 }
+
