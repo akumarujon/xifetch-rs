@@ -1,6 +1,6 @@
 [package]
 name = "xifetch"
-version = "0.1.4"
+version = "2.0.0"
 edition = "2021"
 authors = ["akumaru <akumaru.senju@gmail.com>"]
 description = "xifetch is a neofetch alternative written in Rust."
@@ -11,3 +11,4 @@ readme="README.md"
 
 
 [dependencies]
+colored = "2.0.0"

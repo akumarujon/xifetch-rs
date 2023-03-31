@@ -1,21 +1,13 @@
 use std::process::Command;
 
+mod color;
+mod config;
+
 fn main() {
-    let os_name = get_os_name().unwrap_or_else(|| "Unknown".to_string());
-    let kernel_version = get_kernel_version().unwrap_or_else(|| "Unknown".to_string());
-    let host_name = get_host_name().unwrap_or_else(|| "Unknown".to_string());
-    let uptime = get_uptime().unwrap_or_else(|| "Unknown".to_string());
-    let cpu_info = get_cpu_info().unwrap_or_else(|| "Unknown".to_string());
-    let memory_info = get_memory_info().unwrap_or_else(|| "Unknown".to_string());
-    let shell_name = std::env::var("SHELL").unwrap_or_else(|_| "Unknown".to_string());
-    
-    println!("OS: {}", os_name);
-    println!("Shell: {}", shell_name);
-    println!("Kernel: {}", kernel_version);
-    println!("Host: {}", host_name);
-    println!("Uptime: {}", uptime);
-    println!("CPU: {}", cpu_info);
-    println!("Memory: {}", memory_info);
+    config::config();
+    let fetch = color::colorize(print_fetch());
+
+    println!("{}", fetch);
 }
 
 fn get_os_name() -> Option<String> {
@@ -43,7 +35,9 @@ fn get_uptime() -> Option<String> {
 fn get_cpu_info() -> Option<String> {
     let output = Command::new("lscpu").output().ok()?;
     let cpu_info_str = String::from_utf8(output.stdout).ok()?;
-    let model_name_line = cpu_info_str.lines().find(|line| line.contains("Model name"))?;
+    let model_name_line = cpu_info_str
+        .lines()
+        .find(|line| line.contains("Model name"))?;
     let model_name = model_name_line.split(':').nth(1)?.trim();
     let cpu_cores_line = cpu_info_str.lines().find(|line| line.contains("CPU(s)"))?;
     let cpu_cores = cpu_cores_line.split(':').nth(1)?.trim();
@@ -61,3 +55,24 @@ fn get_memory_info() -> Option<String> {
     Some(format!("{}  / {} ", used_mem, total_mem))
 }
 
+fn print_fetch() -> String {
+    let os_name = get_os_name().unwrap_or_else(|| "Unknown".to_string());
+    let kernel_version = get_kernel_version().unwrap_or_else(|| "Unknown".to_string());
+    let host_name = get_host_name().unwrap_or_else(|| "Unknown".to_string());
+    let uptime = get_uptime().unwrap_or_else(|| "Unknown".to_string());
+    let cpu_info = get_cpu_info().unwrap_or_else(|| "Unknown".to_string());
+    let memory_info = get_memory_info().unwrap_or_else(|| "Unknown".to_string());
+    let shell_name = std::env::var("SHELL").unwrap_or_else(|_| "Unknown".to_string());
+
+    let mut result: String = String::new();
+
+    result.push_str(format!("OS: {}\n", os_name).as_str());
+    result.push_str(format!("Shell: {}\n", shell_name).as_str());
+    result.push_str(format!("Kernel: {}\n", kernel_version).as_str());
+    result.push_str(format!("Host: {}\n", host_name).as_str());
+    result.push_str(format!("Uptime: {}\n", uptime).as_str());
+    result.push_str(format!("CPU: {}\n", cpu_info).as_str());
+    result.push_str(format!("Memory: {}\n", memory_info).as_str());
+
+    return result;
+}
