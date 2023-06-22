@@ -32,7 +32,7 @@ fn get_uptime() -> Option<String> {
     if let Some(up_index) = stdout.find("up") {
         let time_str = &stdout[up_index + 3..];
 
-        if let Some(comma_index) = time_str.find(",") {
+        if let Some(comma_index) = time_str.find(',') {
             let extracted_time = &time_str[..comma_index];
             let trimmed_time = extracted_time.trim();
 
@@ -85,5 +85,5 @@ fn print_fetch() -> String {
     result.push_str(format!("CPU: {}\n", cpu_info).as_str());
     result.push_str(format!("Memory: {}\n", memory_info).as_str());
 
-    return result;
+    result
 }

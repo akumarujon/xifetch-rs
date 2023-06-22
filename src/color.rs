@@ -1,5 +1,5 @@
 use colored::{ColoredString, Colorize};
-use std;
+
 
 fn get_color() -> String {
     let file_path = format!(
@@ -10,9 +10,9 @@ fn get_color() -> String {
     let contents =
         std::fs::read_to_string(file_path).expect("Should have been able to read the file");
 
-    let color = contents.split("=").collect::<Vec<&str>>()[1];
+    let color = contents.split('=').collect::<Vec<&str>>()[1];
 
-    return String::from(color);
+    String::from(color)
 }
 
 pub fn colorize(text: String) -> ColoredString {
