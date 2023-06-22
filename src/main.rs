@@ -27,9 +27,20 @@ fn get_host_name() -> Option<String> {
 
 fn get_uptime() -> Option<String> {
     let output = Command::new("uptime").output().ok()?;
-    let uptime_str = String::from_utf8(output.stdout).ok()?.trim().to_string();
-    let parts: Vec<&str> = uptime_str.split(' ').collect();
-    Some(parts[0..2].join(" "))
+
+    let stdout = String::from_utf8(output.stdout).ok()?;
+    if let Some(up_index) = stdout.find("up") {
+        let time_str = &stdout[up_index + 3..];
+
+        if let Some(comma_index) = time_str.find(",") {
+            let extracted_time = &time_str[..comma_index];
+            let trimmed_time = extracted_time.trim();
+
+            return Some(trimmed_time.to_string());
+        }
+    }
+
+    None
 }
 
 fn get_cpu_info() -> Option<String> {
