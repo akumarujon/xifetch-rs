@@ -17,8 +17,8 @@ pub fn config() {
     );
 
     if !Path::new(&file_path).exists() {
-        fs::create_dir_all(config_path);
+        fs::create_dir_all(config_path).unwrap();
         let mut file = File::create(file_path).unwrap();
-        file.write_all(b"color=blue\n");
+        file.write_all(b"color=blue\n").unwrap();
     }
 }
