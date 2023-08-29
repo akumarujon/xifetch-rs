@@ -3,7 +3,7 @@
 ### Installation
 Clone this repository:
 ```bash
-git clone https://github.com/triistam/xifetch-rs
+git clone https://github.com/akumarujon/xifetch-rs
 ```
 Enter to a folder:
 ```bash
